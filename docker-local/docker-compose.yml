@@ -1,0 +1,10 @@
+services:
+   ghidra: 
+     image: retornam/ghidra-server:10.1.3
+     env_file: env.conf
+     ports:
+       - '13100:13100'
+       - '13101:13101'
+       - '13102:13102'
+     volumes:
+       - ./repos/:/repos
