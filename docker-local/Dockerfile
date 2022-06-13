@@ -1,15 +1,16 @@
 FROM openjdk:11-jdk-slim
 
-ENV VERSION=10.1.3
-ENV FILE_NAME=ghidra_${VERSION}_PUBLIC_20220421.zip
-ENV DL https://github.com/NationalSecurityAgency/ghidra/releases/download/Ghidra_${VERSION}_build/${FILE_NAME}
-ENV GHIDRA_SHA256 9c73b6657413686c0af85909c20581e764107add2a789038ebc6eca49dc4e812
+ENV GHIDRA_DOWNLOAD_VERSION=10.1.4
+ENV GHIDRA_VERSION_DATE=20220519
+ENV GHIDRA_DOWNLOAD_FILE_NAME=ghidra_${GHIDRA_DOWNLOAD_VERSION}_PUBLIC_${GHIDRA_VERSION_DATE}.zip
+ENV DL https://github.com/NationalSecurityAgency/ghidra/releases/download/Ghidra_${GHIDRA_DOWNLOAD_VERSION}_build/${GHIDRA_DOWNLOAD_FILE_NAME}
+ENV GHIDRA_SHA256 91556c77c7b00f376ca101a6026c0d079efbf24a35b09daaf80bda897318c1f1
 
 RUN apt-get update && apt-get install -y wget unzip dnsutils --no-install-recommends \
     && wget --progress=bar:force -O /tmp/ghidra.zip ${DL} \
     && echo "$GHIDRA_SHA256 /tmp/ghidra.zip" | sha256sum -c - \
     && unzip /tmp/ghidra.zip \
-    && mv ghidra_${VERSION}_PUBLIC /ghidra \
+    && mv ghidra_${GHIDRA_DOWNLOAD_VERSION}_PUBLIC /ghidra \
     && chmod +x /ghidra/ghidraRun \
     && echo "===> Clean up unnecessary files..." \
     && apt-get purge -y --auto-remove wget unzip \
