@@ -1,3 +1,12 @@
+locals {
+  inittemplate = templatefile("${path.module}/templates/init.sh.tpl", {
+    docker_image_version = var.docker_image_version,
+    ghidra_users         = var.ghidra_users
+  })
+}
+
+
+
 data "aws_ami" "ubuntu" {
   most_recent = true
   owners      = ["099720109477"]
@@ -13,13 +22,6 @@ data "aws_ami" "ubuntu" {
   }
 }
 
-data "template_file" "init" {
-  template = file("${path.module}/templates/init.sh.tpl")
-  vars = {
-    docker_image_version = var.docker_image_version,
-    ghidra_users         = var.ghidra_users
-  }
-}
 
 resource "tls_private_key" "keypem" {
   algorithm = "RSA"
@@ -79,7 +81,7 @@ resource "aws_instance" "ghidra" {
 
   ami                         = data.aws_ami.ubuntu.id
   instance_type               = var.instance_type
-  user_data                   = data.template_file.init.rendered
+  user_data                   = local.inittemplate
   vpc_security_group_ids      = [aws_security_group.sg.id]
   associate_public_ip_address = true
   key_name                    = aws_key_pair.key.key_name # your key here
