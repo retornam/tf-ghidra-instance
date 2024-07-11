@@ -1,10 +1,10 @@
 FROM mcr.microsoft.com/openjdk/jdk:21-ubuntu
 
-ENV GHIDRA_DOWNLOAD_VERSION=11.1.1
-ENV GHIDRA_VERSION_DATE=20240614
+ENV GHIDRA_DOWNLOAD_VERSION=11.1.2
+ENV GHIDRA_VERSION_DATE=20240709
 ENV GHIDRA_DOWNLOAD_FILE_NAME=ghidra_${GHIDRA_DOWNLOAD_VERSION}_PUBLIC_${GHIDRA_VERSION_DATE}.zip
 ENV DL https://github.com/NationalSecurityAgency/ghidra/releases/download/Ghidra_${GHIDRA_DOWNLOAD_VERSION}_build/${GHIDRA_DOWNLOAD_FILE_NAME}
-ENV GHIDRA_SHA256 7fe8d9a6e7e5267f3cf487a0c046b21fb08d7a602facaa2e81ac2f09b5df2866
+ENV GHIDRA_SHA256 219ec130b901645779948feeb7cc86f131dd2da6c36284cf538c3a7f3d44b588
 
 RUN apt-get update && apt-get install -y wget unzip dnsutils --no-install-recommends \
     && wget --progress=bar:force -O /tmp/ghidra.zip ${DL} \
